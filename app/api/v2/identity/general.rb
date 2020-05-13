@@ -3,6 +3,21 @@
 module API::V2
   module Identity
     class General < Grape::API
+
+      desc 'KYCAID callback'
+      params do
+        requires :verification_id, type: String, desc: 'The verification’s unique identificator.'
+        requires :applicant_id, type: String, desc: 'The applicant unique identificator.'
+        requires :verified, type: Boolean, desc: 'Result of verification'
+        requires :verifications, type: String, desc: 'VerificationsList object'
+      end
+      post '/kyc' do
+        declared_params = declared(params, include_missing: false)
+
+        return_status = KycService.kycaid_callback(declared_params)
+        status return_status
+      end
+
       desc 'Password strength testing'
       params do
         requires :password, type: String, desc: 'User password'

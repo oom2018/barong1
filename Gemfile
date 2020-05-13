@@ -19,6 +19,9 @@ gem 'fog-aws', '~> 3.5.2'
 # gcp support (google)
 gem 'fog-google', '~> 1.9.1'
 
+gem 'sidekiq'
+# TODO: change to github
+gem 'kycaid', path: "/home/mafara/work/ruby-kycaid"
 # GLI
 gem 'gli', '~> 2.19.0'
 

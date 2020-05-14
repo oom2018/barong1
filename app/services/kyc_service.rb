@@ -25,7 +25,7 @@ class KycService
       user = document.user
       user_document_label = user.labels.find_by(key: :document)
 
-      return unless document.doc_type.in?['Passport', 'Driver License', 'Identity Card']
+      return unless document.doc_type.in?(['Passport', 'Driver License', 'Identity Card'])
       return unless document.doc_type == 'Passport' && user.documents.where(identificator: document.identificator).count == 2 ||
                     user.documents.where(identificator: document.identificator).count == 3
 

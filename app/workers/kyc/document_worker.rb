@@ -6,8 +6,8 @@ module KYC
 
     def perform(user_id, idenficator)
       @user = User.find(user_id)
-      docs = @user.documents.wehere(idenficator: idenficator)
-      @applicant_id = JSON.parse(@user.profiles.last.metadata)['applicant_id']
+      docs = @user.documents.where(idenficator: idenficator)
+      @applicant_id = @user.profiles.last.applicant_id
 
 
       document_id = KYCAID::Document.create(document_params(docs, docs.first.doc_type)).document_id
@@ -39,7 +39,7 @@ module KYC
       {
         applicant_id: @applicant_id,
         types: ['DOCUMENT'],
-        callback_url: "#{Barong::App.config.domain}/api/v2/identity/general/kyc"
+        callback_url: "#{Barong::App.config.domain}/api/v2/barong/identity/general/kyc"
       }
     end
   end

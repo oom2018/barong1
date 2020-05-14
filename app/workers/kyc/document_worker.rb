@@ -10,7 +10,7 @@ module KYC
       @applicant_id = JSON.parse(@user.profiles.last.metadata)['applicant_id']
 
       document_id = KYCAID::Document.create(document_params(docs, docs.first.doc_type)).document_id
-      docs.last.update(metadata: { applicant_id: applicant.applicant_id }.to_json)
+      docs.last.update(metadata: { document_id: @document_id }.to_json)
 
       KYCAID::Verification.create(verification_params)
     end
@@ -38,7 +38,7 @@ module KYC
       {
         applicant_id: @applicant_id,
         types: ['DOCUMENT'],
-        callback_url: "#{Barong::App.config.domain}/api/v2/identity/general/kyc",
+        callback_url: "http://localhost:3000/api/v2/identity/general/kyc",
       }
     end
   end

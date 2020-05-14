@@ -12,9 +12,7 @@ module API::V2
         requires :verifications, type: String, desc: 'VerificationsList object'
       end
       post '/kyc' do
-        declared_params = declared(params, include_missing: false)
-
-        return_status = KycService.kycaid_callback(declared_params)
+        return_status = KycService.kycaid_callback(params[:verification_id], params[:applicant_id])
         status return_status
       end
 

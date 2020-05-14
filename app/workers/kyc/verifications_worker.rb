@@ -10,6 +10,7 @@ module KYC
 
       verification.verifications.each do |k, v|
         if v["verified"]
+          next unless User.last.labels.find_by_key(k)
           # find user by applicant_id
           User.last.labels.find_by_key(k).update(key: k, value: 'verified', scope: :private)
         else

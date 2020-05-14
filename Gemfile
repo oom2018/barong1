@@ -21,7 +21,7 @@ gem 'fog-google', '~> 1.9.1'
 
 gem 'sidekiq'
 # TODO: change to github
-gem 'kycaid', path: "/home/mafara/work/ruby-kycaid"
+gem 'kycaid', git: 'https://github.com/ec/ruby-kycaid'
 # GLI
 gem 'gli', '~> 2.19.0'
 

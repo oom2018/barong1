@@ -1,5 +1,6 @@
-PATH
-  remote: /home/mafara/work/ruby-kycaid
+GIT
+  remote: https://github.com/ec/ruby-kycaid
+  revision: d77bb763b17504edfe42b7dab0045a7eff61ed83
   specs:
     kycaid (0.1.0)
       faraday

@@ -25,19 +25,37 @@ module API::V2
                    desc: 'Document number'
           requires :upload,
                    desc: 'Array of Rack::Multipart::UploadedFile'
+          # requires :doc_number,
+          #          type: String,
+          #          allow_blank: false,
+          #          desc: 'Document number'
           requires :city,
-                   type: { value: Date, message: "resource.documents.expire_not_a_date" },
                    allow_blank: true,
                    desc: 'Document expiration date'
           requires :postcode, type: String, desc: 'Any additional key: value pairs in json string format'
         end
 
         post do
+          params[:doc_number] = '0000'
+          identificator = SecureRandom.hex(16)
+
           params[:upload].each do |file|
-            doc = current_user.documents.new(declared(params).except(:upload).merge(upload: file, doc_type: 'ADDRESS_DOCUMENT'))
+            doc = current_user.documents.new(params.except(:upload).merge(upload: file, identificator: identificator, doc_type: 'address'))
 
             code_error!(doc.errors.details, 422) unless doc.save
           end
+
+          KycService.address_step(
+            {
+              identificator: identificator,
+              user_id: current_user.id,
+              country: params[:country],
+              city: params[:city],
+              postcode: params[:postcode],
+              address:  params[:address]
+            }
+          )
+
           status 201
 
         rescue Excon::Error => e

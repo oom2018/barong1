@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_18_152130) do
+ActiveRecord::Schema.define(version: 2020_05_14_123908) do
 
   create_table "activities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -53,9 +53,11 @@ ActiveRecord::Schema.define(version: 2020_03_18_152130) do
     t.string "doc_type"
     t.string "doc_number"
     t.date "doc_expire"
+    t.string "identificator"
     t.text "metadata"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "doc_issue"
     t.index ["user_id"], name: "index_documents_on_user_id"
   end
 
@@ -104,6 +106,7 @@ ActiveRecord::Schema.define(version: 2020_03_18_152130) do
 
   create_table "profiles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id"
+    t.string "applicant_id"
     t.string "first_name"
     t.string "last_name"
     t.date "dob"

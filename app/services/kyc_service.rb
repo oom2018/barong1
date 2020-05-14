@@ -3,12 +3,13 @@
 class KycService
   class << self
     def profile_step(profile)
-      profile_label = profile.user.labels.find_by(key: :profile)
+      user = profile.user
+      profile_label = user.labels.find_by(key: :profile)
 
       if profile_label.nil? # first profile everBarong::App.config.kyc_provider == 'local'
-        user.labels.create(key: :profile, value: state, scope: :private)
+        user.labels.create(key: :profile, value: profile.state, scope: :private)
       else
-        profile_label.update(value: state) # re-submitted profile
+        profile_label.update(value: profile.state) # re-submitted profile
       end
       
       return if Barong::App.config.kyc_provider == 'local'
@@ -24,6 +25,10 @@ class KycService
       user = document.user
       user_document_label = user.labels.find_by(key: :document)
 
+      return unless document.doc_type.in?['Passport', 'Driver License', 'Identity Card']
+      return unless document.doc_type == 'Passport' && user.documents.where(identificator: document.identificator).count == 2 ||
+                    user.documents.where(identificator: document.identificator).count == 3
+
       if user_document_label.nil? # first document ever
         user.labels.create(key: :document, value: :pending, scope: :private)
       else
@@ -31,27 +36,27 @@ class KycService
       end
 
       return if Barong::App.config.kyc_provider == 'local'
-      KYC::DocumentWorker.perform_async(user.id) if Barong::App.config.kyc_provider == 'kycaid'        
+      KYC::DocumentWorker.perform_async(user.id, document.identificator) if Barong::App.config.kyc_provider == 'kycaid'        
     end
 
     def address_step(address_params)
-      user = address_document.user
-      user_address_label = user.labels.find_by(key: :address)
+      # user = User.find(address_params[:user_id])
+      # user_address_label = user.labels.find_by(key: :address)
 
-      if user_address_label.nil? # first address ever
-        user.labels.create(key: :address, value: :pending, scope: :private)
-      else
-        user_address_label.update(value: :pending) # re-submitted address
-      end
-      return if Barong::App.config.kyc_provider == 'local'
-      
-      KYC::AddressWorker.perform_async(user.id) if Barong::App.config.kyc_provider == 'kycaid'
+      # if user_address_label.nil? # first address ever
+      #   user.labels.create(key: :address, value: :pending, scope: :private)
+      # else
+      #   user_address_label.update(value: :pending) # re-submitted address
+      # end
+      # return if Barong::App.config.kyc_provider == 'local'
+
+      # KYC::AddressWorker.perform_async(address_params.merge(user_id: user.id, identificator: address_params[:identificator])) if Barong::App.config.kyc_provider == 'kycaid'
     end
 
     def kycaid_callback(verification_id, applicant_id)
       return 422 unless Barong::App.config.kyc_provider == 'kycaid'
 
-      KYC::VerificationWorker.perform_async(verification_id, applicant_id)
+      KYC::VerificationsWorker.perform_async(verification_id, applicant_id)
       200
     end
   end

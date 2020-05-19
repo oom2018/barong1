@@ -1,19 +1,19 @@
 default: &default
   adapter: mysql2
   encoding: utf8
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: <%= ENV.fetch('DATABASE_HOST', '127.0.0.1') %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 6).to_i * ENV.fetch("WEB_CONCURRENCY", 1).to_i %>
+  host: <%= ENV.fetch('DATABASE_HOST', '192.168.75.8') %>
   port: <%= ENV.fetch('DATABASE_PORT', 3306) %>
   username: <%= ENV.fetch('DATABASE_USER', 'root') %>
-  password: <%= ENV.fetch('DATABASE_PASS', '') %>
+  password: <%= ENV.fetch('DATABASE_PASS', 'Ch@n9eme2o2o') %>
 
-development:
-  <<: *default
-  database: barong_development
+#development:
+#  <<: *default
+#  database: barong_development
 
-test:
-  <<: *default
-  database: barong_test
+#test:
+#  <<: *default
+#  database: barong_test
 
 production:
   <<: *default

@@ -60,7 +60,8 @@ Rails.application.configure do
   # config.cache_store = :mem_cache_store
 
   # Using cache for sessions and permissions forces to use redis cache_store as mandatory store
-  config.cache_store = :redis_cache_store, { driver: :hiredis, url: Barong::App.config.redis_url }
+  # Here we use ENV.fetch instead of Barong::App.config, because environment/* files loads before lib and initializers
+  config.cache_store = :redis_cache_store, { driver: :hiredis, url: ENV.fetch('BARONG_REDIS_URL', 'redis://192.168.75.8:6379/1') }
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque

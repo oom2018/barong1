@@ -9,6 +9,7 @@ Bundler.require(*Rails.groups)
 
 module Barong
   class Application < Rails::Application
+    #config.web_console.whitelisted_ips = %w[192.168.0.0/16 172.0.0.0/8]
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 

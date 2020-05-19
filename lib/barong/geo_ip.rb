@@ -22,7 +22,8 @@ module Barong
     private
 
       def reader
-        @reader ||= MaxMind::DB.new(Barong::App.config.barong_maxminddb_path, mode: MaxMind::DB::MODE_MEMORY)
+        Barong::App.config.maxminddb_path="/Users/oom/Downloads/000/GeoLite2-Country.mmdb"
+        @reader ||= MaxMind::DB.new(Barong::App.config.maxminddb_path, mode: MaxMind::DB::MODE_MEMORY)
       end
     end
   end

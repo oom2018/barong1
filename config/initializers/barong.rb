@@ -9,7 +9,7 @@ require 'barong/app'
 require 'barong/keystore'
 
 begin
-  private_key_path = ENV['JWT_PRIVATE_KEY_PATH']
+  private_key_path = "/Users/oom/gopath/src/github.com/oom2018/barong/config/secrets/barong.key" #  ENV['JWT_PRIVATE_KEY_PATH']
 
   if !private_key_path.nil?
     pkey = Barong::KeyStore.open!(private_key_path)

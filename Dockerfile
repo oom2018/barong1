@@ -36,6 +36,7 @@ USER app
 
 COPY --chown=app:app Gemfile Gemfile.lock $APP_HOME/
 
+RUN bundle config  mirror.https://rubygems.org/  https://gems.ruby-china.com/
 # Install dependencies
 RUN gem install bundler
 RUN bundle install --jobs=$(nproc) --deployment --binstubs

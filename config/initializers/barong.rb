@@ -36,8 +36,8 @@ kstore = Barong::KeyStore.new(pkey)
 Barong::App.define do |config|
   # General configuration ---------------------------------------------
   # https://github.com/openware/barong/blob/master/docs/configuration.md#general-configuration
-  config.set(:app_name, 'Barong')
-  config.set(:domain, 'openware.com')
+  config.set(:app_name, 'OpenDAX')
+  config.set(:domain, 'www.proxy.xlife.top')
   config.set(:uid_prefix, 'ID', regex: /^[A-z]{2,6}$/)
   config.set(:session_name, '_barong_session')
   config.set(:session_expire_time, '1800', type: :integer)

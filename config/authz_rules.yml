@@ -3,9 +3,12 @@
 # block for blacklisted routes
 #
 rules:
-  pass: 
+  pass:
     - api/v2/barong/identity
     - api/v2/peatio/public
+    - api/v2/ranger/public
+    - api/v2/applogic/public
+    - api/v2/arke/public
   block:
     - api/v2/barong/management
     - api/v2/peatio/management
